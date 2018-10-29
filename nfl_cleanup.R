@@ -33,6 +33,9 @@ for (i in 1:length(files)){
     # set type for some variables
     tmpTeam$Player = as.character(tmpTeam$Player)
     tmpTeam$Cap.Hit = as.character(tmpTeam$Cap.Hit)
+    tmpTeam$Ht = as.character(tmpTeam$Ht)
+    tmpTeam$HeightCM = NA
+    tmpTeam$WeightKG = NA
 
     for (p in 1:nrow(tmpTeam)){
         # Separate player Id
@@ -41,6 +44,11 @@ for (i in 1:length(files)){
         tmpTeam$Player[p] = strsplit(tmpTeam$Player[p], "\\\\")[[1]][1]
         # Convert pay to number (rm $)
         tmpTeam$Cap.Hit[p] = strsplit(tmpTeam$Cap.Hit[p], "\\$")[[1]][2]
+        # Convert height to cm
+        tmpTeam$HeightCM[p] = ( as.numeric(strsplit(tmpTeam$Ht[p], '\\-')[[1]][1]) * 30.48 ) + 
+            ( as.numeric(strsplit(tmpTeam$Ht[p], '\\-')[[1]][2]) * 2.54)
+        # Convert pounds to kg
+        tmpTeam$WeightKG[p] = tmpTeam$Wt[p] * 0.453592
     }
     
     # Append to data frame
